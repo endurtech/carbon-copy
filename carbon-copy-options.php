@@ -54,7 +54,7 @@ function carbon_copy_menu()
 
 function carbon_copy_options()
 {
-	if( current_user_can( 'promote_users' ) && ( isset( $_GET['settings-updated'] )  && $_GET['settings-updated'] == true ) )
+	if( current_user_can( 'promote_users' ) && ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] == true ) )
 	{
 		global $wp_roles;
 		

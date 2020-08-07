@@ -872,7 +872,7 @@ function carbon_copy_add_plugin_links( $links, $file )
 	if( $file == plugin_basename(dirname(__FILE__).'/carbon-copy.php') )
 	{
 		#$links[] = '<a href="https://endurtech.com/carbon-copy-wordpress-plugin/" aria-label="' . esc_attr__('Documentation for Carbon Copy', 'carbon-copy') . '">' . esc_html__('Documentation', 'carbon-copy') . '</a>';
-		$links[] = '<a href="https://endurtech.com/give-thanks/" aria-label="' . esc_attr__('Support future improvments to Carbon Copy', 'carbon-copy') . '">' . '<strong>' . esc_html__('Donate', 'carbon-copy') . '</strong></a>';
+		$links[] = '<a href="https://endurtech.com/give-thanks/" aria-label="' . esc_attr__('Support future improvments Donate to Carbon Copy', 'carbon-copy') . '">' . '<strong>' . esc_html__('Donate', 'carbon-copy') . '</strong></a>';
 	}
 	return $links;
 }
