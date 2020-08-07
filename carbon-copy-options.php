@@ -288,8 +288,8 @@ jQuery( function()
 
 	<div style="padding:10px 0px;"></div>
 	<h3>Link Display Locations</h3>
-	<span class="description"><?php esc_html_e( "Copy Links for Custom Post Types might not display, they are dependent upon your Theme or Plugin.", 'carbon-copy'); ?><br />
-	<span class="description"><?php esc_html_e( "You can use the template tag: carbon_copy_clone_post_link( &#36;link, &#36;before, &#36;after, &#36;id )", 'carbon-copy'); ?><br />
+	<span class="description"><?php esc_html_e( "Copy Links for Custom Post Types might not display, they are dependent upon your Theme or Plugin.", 'carbon-copy'); ?></span><br />
+	<span class="description"><?php esc_html_e( "You can use the template tag: carbon_copy_clone_post_link( &#36;link, &#36;before, &#36;after, &#36;id )", 'carbon-copy'); ?></span><br />
 	<?php printf(__('Learn more by visiting the <a href="%s" target="_blank" title="Opens in New Window">developer&apos;s guide for Carbon Copy</a>', 'carbon-copy'), 'https://endurtech.com/carbon-copy-wordpress-plugin/#clone_post_link'); ?></span><br />
 	<br />
 
@@ -300,7 +300,8 @@ jQuery( function()
 	<input type="checkbox" name="carbon_copy_show_submitbox" value="1" <?php if( get_option( 'carbon_copy_show_submitbox' ) == 1 ) echo 'checked="checked"'; ?> /><?php esc_html_e("Edit screen", 'carbon-copy'); ?>
 </label><br />
 <label>
-	<input type="checkbox" name="carbon_copy_show_adminbar" value="1" <?php if( get_option( 'carbon_copy_show_adminbar' ) == 1 ) echo 'checked="checked"'; ?> /><?php esc_html_e("Admin bar", 'carbon-copy'); ?> <span class="description">(<em><?php esc_html_e("Works on Edit screen, check to use with Gutenberg enabled.", 'carbon-copy'); ?></em>)</span>
+	<input type="checkbox" name="carbon_copy_show_adminbar" value="1" <?php if( get_option( 'carbon_copy_show_adminbar' ) == 1 ) echo 'checked="checked"'; ?> /><?php esc_html_e("Admin bar", 'carbon-copy'); ?>
+	<span class="description">(<em><?php esc_html_e("Works on Edit screen, check to use with Gutenberg enabled.", 'carbon-copy'); ?></em>)</span>
 </label><br />
 <?php
 global $wp_version;
