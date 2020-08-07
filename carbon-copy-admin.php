@@ -191,7 +191,6 @@ function carbon_copy_plugin_upgrade()
 	
 }
 
-
 function carbon_copy_show_original_column() {
 	$carbon_copy_types_enabled = get_option( 'carbon_copy_types_enabled', array( 'post', 'page' ) );
 	if ( ! is_array( $carbon_copy_types_enabled ) ) {
@@ -404,6 +403,7 @@ function carbon_copy_save_as_new_post_draft()
 {
 	carbon_copy_save_as_new_post( 'draft' );
 }
+
 function carbon_copy_add_removable_query_arg( $removable_query_args )
 {
 	$removable_query_args[] = 'cloned';
@@ -592,10 +592,12 @@ function carbon_copy_addslashes_deep( $value )
 		return wp_slash( $value );
 	}
 }
+
 function carbon_copy_addslashes_to_strings_only( $value )
 {
 	return is_string( $value ) ? addslashes( $value ) : $value;
 }
+
 function carbon_copy_wp_slash( $value )
 { 
 	return carbon_copy_addslashes_deep( $value ); 
@@ -891,11 +893,13 @@ function carbon_copy_add_bulk_filters_for_enabled_post_types()
 		add_filter( "handle_bulk_actions-edit-{$carbon_copy_type_enabled}", 'carbon_copy_action_handler', 10, 3 );
 	}
 }
+
 function carbon_copy_register_bulk_action( $bulk_actions )
 {
 	$bulk_actions['carbon_copy_clone'] = esc_html__( 'Copy', 'carbon-copy' );
 	return $bulk_actions;
 }
+
 function carbon_copy_action_handler( $redirect_to, $doaction, $post_ids )
 {
 	if( $doaction !== 'carbon_copy_clone' )
@@ -922,6 +926,7 @@ function carbon_copy_action_handler( $redirect_to, $doaction, $post_ids )
 	$redirect_to = add_query_arg( 'cloned', $counter, $redirect_to );
 	return $redirect_to;
 }
+
 function carbon_copy_has_ancestors_marked( $post, $post_ids )
 {
 	$ancestors_in_array = 0;
