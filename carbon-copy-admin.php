@@ -280,7 +280,7 @@ function carbon_copy_show_original_in_post_states( $post_states, $post )
 function carbon_copy_admin_enqueue_scripts( $hook ) {
 	if ( 'edit.php' === $hook )
 	{
-		//wp_enqueue_script( 'carbon_copy_admin_script', plugins_url( 'carbon_copy.js', __FILE__ ), false, CARBON_COPY_CURRENT_VERSION, true );
+		###wp_enqueue_script( 'carbon_copy_admin_script', plugins_url( 'carbon-copy.js', __FILE__ ), false, CARBON_COPY_CURRENT_VERSION, true );
 		?>
 <script>
 (function( jQuery )
@@ -366,7 +366,7 @@ function carbon_copy_custom_box_html( $post )
 }
 
 // Add link to action list for 'post_row_actions'
-function carbon_copy_make_duplicate_link_row( $actions, $post )
+function carbon_copy_make_duplicate_link_row($actions, $post)
 {
 	if( carbon_copy_is_current_user_allowed_to_copy() && carbon_copy_is_post_type_enabled( $post->post_type ) )
 	{
@@ -386,15 +386,15 @@ function carbon_copy_add_carbon_copy_button()
 {
 	if( isset( $_GET['post'] ) )
 	{
-		$id = $_GET['post'];
+		$id = esc_html( intval( $_GET['post'] ) );
 		$post = get_post( $id );
 		if( carbon_copy_is_current_user_allowed_to_copy() && carbon_copy_is_post_type_enabled( $post->post_type ) )
 		{
-			?>
-			<div id="carbon-copy-action">
-				<a class="submitcarboncopy duplication" href="<?php esc_url( carbon_copy_get_clone_post_link( $id ) ); ?>"><?php esc_html_e( 'Copy to new draft', 'carbon-copy' ); ?></a>
-			</div>
-			<?php
+?>
+<div id="duplicate-action">
+	<a class="submitduplicate duplication" href="<?php echo esc_url( carbon_copy_get_clone_post_link( $id ) ); ?>"><?php esc_html_e('Copy to new draft', 'carbon-copy'); ?></a>
+</div>
+<?php
 		}
 	}
 }
@@ -424,11 +424,18 @@ function carbon_copy_save_as_new_post( $status = '' )
 	}
 
 	// Get original post
-	$id = (isset($_GET['post']) ? $_GET['post'] : $_POST['post']);
+	if( isset( $_GET['post'] ) )
+	{
+		$id = esc_html( intval( $_GET['post'] ) );
+	}
+	else
+	{
+		$id = esc_html( intval( $_POST['post'] ) );
+	}
 	
-	check_admin_referer('carbon-copy_' . $id);
+	check_admin_referer( 'carbon-copy_' . $id );
 	
-	$post = get_post($id);	
+	$post = get_post( $id );	
 
 	// Copy and insert post
 	if( isset( $post ) && $post != null )

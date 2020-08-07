@@ -193,17 +193,17 @@ function carbon_copy_admin_bar_render()
 	}
 	else if( is_admin() && isset( $_GET['post'] ) )
 	{
-		$id = $_GET['post'];
+		$id = esc_html( intval( $_GET['post'] ) );
 		$post = get_post( $id );
 		if( ! is_null( $post ) 
-				&& carbon_copy_is_current_user_allowed_to_copy()
-				&& carbon_copy_is_post_type_enabled( $post->post_type ) )
-				{
-					$wp_admin_bar->add_menu( array(
-						'id' => 'new_draft',
-						'title' => esc_attr__("Copy to new draft", 'carbon-copy'),
-						'href' => carbon_copy_get_clone_post_link( $id )
-					) );
+			&& carbon_copy_is_current_user_allowed_to_copy()
+			&& carbon_copy_is_post_type_enabled( $post->post_type ) )
+		{
+			$wp_admin_bar->add_menu( array(
+				'id' => 'new_draft',
+				'title' => esc_attr__("Copy to new draft", 'carbon-copy'),
+				'href' => carbon_copy_get_clone_post_link( $id )
+			) );
 		}
 	}
 }
@@ -228,14 +228,14 @@ function carbon_copy_add_css()
 	}
 	else if( is_admin() && isset( $_GET['post'] ) )
 	{
-		$id = $_GET['post'];
+		$id = esc_html( intval( $_GET['post'] ) );
 		$post = get_post( $id );
 		if( ! is_null( $post )
-				&& carbon_copy_is_current_user_allowed_to_copy()
-				&& carbon_copy_is_post_type_enabled($post->post_type))
-				{
-					wp_enqueue_style( 'carbon-copy', plugins_url('/carbon-copy.css', __FILE__), array(), CARBON_COPY_CURRENT_VERSION );
-				}
+			&& carbon_copy_is_current_user_allowed_to_copy()
+			&& carbon_copy_is_post_type_enabled($post->post_type))
+		{
+			wp_enqueue_style( 'carbon-copy', plugins_url('/carbon-copy.css', __FILE__), array(), CARBON_COPY_CURRENT_VERSION );
+		}
 	}
 }
 
