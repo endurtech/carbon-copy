@@ -52,6 +52,9 @@ Use the Add New Plugin feature within your WordPress site and search for "Carbon
 = How do I use this plugin? =
 Upon activation, visit the "Settings > Carbon Copy" section and adjust the options as needed.
 
+= I found this plugin helpful. How can I help? =
+Happy to have helped! Support my work and future improvements to this plugin by [sending me a tip using your Brave browser](https://endurtech.com/send-a-tip-using-the-brave-browser/) or by [sending me a one-time donation](https://endurtech.com/give-thanks/). If you have any ideas for improvements or want to contribute to the code you may [get in touch with me](https://endurtech.com/contact/).
+
 == Upgrade Notice ==
 
 There is a new version of Carbon Copy available.
