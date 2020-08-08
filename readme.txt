@@ -12,11 +12,11 @@ Copy your pages, posts and more quickly and conveniently.
 
 == Description ==
 
-This WordPress plugin will allow you to quickly and conveniently copy pages and posts of any type. You can quick copy, bulk copy and even copy them to new drafts.  
+Are you ready to increase your productivity? This free WordPress plugin will allow you to quickly and conveniently copy your pages, posts and even your custom post types. You can quickly copy, bulk copy and copy straight to new drafts.  
 
 Carbon Copy has many useful settings to customize its behavior, restrict its use to certain roles or post types and will increase your productivity. For more information check out the plugin documentation on [the plugin's site](https://endurtech.com/carbon-copy-wordpress-plugin/).  
 
-Carbon Copy does not display any annoying ads or pop-ups and does not collect any information outside your WordPress installation. Carbon Copy is 100% GDPR compliant.
+Carbon Copy does not display any annoying ads or pop-ups and does not collect any information outside your WordPress installation. Carbon Copy is 100% GDPR compliant.  
 
 If you find this free plugin useful, Support my work and future improvements to this plugin by [sending me a tip using Brave](https://endurtech.com/send-a-tip-using-the-brave-browser/) or by [sending me a one-time donation](https://endurtech.com/give-thanks/).  
 
