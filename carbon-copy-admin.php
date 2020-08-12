@@ -385,7 +385,7 @@ function carbon_copy_add_carbon_copy_button()
 {
 	if( isset( $_GET['post'] ) )
 	{
-		$id = esc_html( intval( $_GET['post'] ) );
+		$id = intval( $_GET['post'] );
 		$post = get_post( $id );
 		if( carbon_copy_is_current_user_allowed_to_copy() && carbon_copy_is_post_type_enabled( $post->post_type ) )
 		{
@@ -424,13 +424,13 @@ function carbon_copy_save_as_new_post( $status = '' )
 	}
 
 	// Get original post
-	if( isset( $_GET['post'] ) )
+	if( isset( $_GET['post'] ) && ! empty( $_GET['post'] ) )
 	{
-		$id = esc_html( intval( $_GET['post'] ) );
+		$id = intval( $_GET['post'] );
 	}
 	else
 	{
-		$id = esc_html( intval( $_POST['post'] ) );
+		$id = intval( $_POST['post'] );
 	}
 	
 	check_admin_referer( 'carbon-copy_' . $id );

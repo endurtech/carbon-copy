@@ -193,7 +193,7 @@ function carbon_copy_admin_bar_render()
 	}
 	else if( is_admin() && isset( $_GET['post'] ) )
 	{
-		$id = esc_html( intval( $_GET['post'] ) );
+		$id = intval( $_GET['post'] );
 		$post = get_post( $id );
 		if( ! is_null( $post ) 
 			&& carbon_copy_is_current_user_allowed_to_copy()
@@ -228,7 +228,7 @@ function carbon_copy_add_css()
 	}
 	else if( is_admin() && isset( $_GET['post'] ) )
 	{
-		$id = esc_html( intval( $_GET['post'] ) );
+		$id = intval( $_GET['post'] );
 		$post = get_post( $id );
 		if( ! is_null( $post )
 			&& carbon_copy_is_current_user_allowed_to_copy()
