@@ -30,20 +30,30 @@ function carbon_copy_register_settings()
 	register_setting( 'carbon_copy_group', 'carbon_copy_copychildren' );
 	register_setting( 'carbon_copy_group', 'carbon_copy_copycomments' );
 	register_setting( 'carbon_copy_group', 'carbon_copy_copymenuorder' );
-	register_setting( 'carbon_copy_group', 'carbon_copy_blacklist ');
+
+	register_setting( 'carbon_copy_group', 'carbon_copy_widgets' );
+
+	register_setting( 'carbon_copy_group', 'carbon_copy_roles' );
+
+	register_setting( 'carbon_copy_group', 'carbon_copy_types_enabled' );
+
 	register_setting( 'carbon_copy_group', 'carbon_copy_taxonomies_blacklist' );
+
 	register_setting( 'carbon_copy_group', 'carbon_copy_title_prefix' );
 	register_setting( 'carbon_copy_group', 'carbon_copy_title_suffix' );
 	register_setting( 'carbon_copy_group', 'carbon_copy_increase_menu_order_by' );
-	register_setting( 'carbon_copy_group', 'carbon_copy_roles' );
-	register_setting( 'carbon_copy_group', 'carbon_copy_types_enabled' );
+	register_setting( 'carbon_copy_group', 'carbon_copy_blacklist ');
+
 	register_setting( 'carbon_copy_group', 'carbon_copy_show_row' );
 	register_setting( 'carbon_copy_group', 'carbon_copy_show_adminbar' );
 	register_setting( 'carbon_copy_group', 'carbon_copy_show_submitbox' );
 	register_setting( 'carbon_copy_group', 'carbon_copy_show_bulkactions' );
+
 	register_setting( 'carbon_copy_group', 'carbon_copy_show_original_column' );
 	register_setting( 'carbon_copy_group', 'carbon_copy_show_original_in_post_states' );
 	register_setting( 'carbon_copy_group', 'carbon_copy_show_original_meta_box' );
+
+	register_setting( 'carbon_copy_group', 'carbon_copy_cleaner' );
 }
 
 // Admin backend menu
@@ -148,6 +158,11 @@ jQuery( function()
 <input type="checkbox" name="carbon_copy_copymenuorder" value="1" <?php if( get_option( 'carbon_copy_copymenuorder' ) == 1 ) echo 'checked="checked"'; ?> /><?php esc_html_e("Menu order", 'default'); ?>
 </label><br />
 
+	<div style="padding:10px 0px;"></div>
+	<h3>Others</h3>
+	<label>
+		<input type="checkbox" name="carbon_copy_widgets" value="1" <?php if( get_option( 'carbon_copy_widgets' ) == 1 ) echo 'checked="checked"'; ?> /><?php esc_html_e("Widgets", 'default'); ?>
+	</label><br />
 
 <div style="padding:10px 0px;"></div>
 <h2 id="permissions">Copy Permissions</h2>
@@ -158,7 +173,7 @@ jQuery( function()
 {
 	?>
 
-	<h3>Roles allowed to copy</h3>
+	<h3>Roles Allowed to Copy</h3>
 	<span class="description"><?php esc_html_e("NOTICE: If enabled, users role can copy ALL posts, even from other users!", 'carbon-copy'); ?></span><br />
 	<span class="description"><?php esc_html_e("Password protected posts and contents will be visible users and visitors.", 'carbon-copy'); ?></span><br />
 	<br />
@@ -175,9 +190,11 @@ jQuery( function()
 	foreach( $roles as $name => $display_name ):
 		$role = get_role( $name );
 		if( count( array_intersect_key( $role->capabilities, $edit_capabilities ) ) > 0 ): ?>
+
 <label>
-	<input type="checkbox" name="carbon_copy_roles[]" value="<?php echo $name ?>" <?php if( $role->has_cap( 'copy_posts' ) ) echo 'checked="checked"' ?> /><?php echo translate_user_role( $display_name ); ?>
+	<input type="checkbox" name="carbon_copy_roles[]" value="<?php echo $name; ?>" <?php if( $role->has_cap( 'copy_posts' ) ) echo 'checked="checked"'; ?> /><?php echo translate_user_role( $display_name ); ?>
 </label><br />
+
 	<?php
 		endif;
 	endforeach;
@@ -194,10 +211,12 @@ jQuery( function()
 	foreach( $post_types as $post_type_object ) :
 		if( $post_type_object->name == 'attachment' )
 			continue;
-		?>
+	?>
+
 <label>
-	<input type="checkbox" name="carbon_copy_types_enabled[]" value="<?php echo $post_type_object->name?>" <?php if(carbon_copy_is_post_type_enabled($post_type_object->name)) echo 'checked="checked"'?> /><?php echo $post_type_object->labels->name; ?>
+	<input type="checkbox" name="carbon_copy_types_enabled[]" value="<?php echo $post_type_object->name; ?>" <?php if( carbon_copy_is_post_type_enabled( $post_type_object->name ) ) echo 'checked="checked"'; ?> /><?php echo $post_type_object->labels->name; ?>
 </label><br />
+
 	<?php
 	endforeach;
 	?>
@@ -205,7 +224,7 @@ jQuery( function()
 	<div style="padding:10px 0px;"></div>
 	<h3>Taxonomies to be Excluded</h3>
 	<span class="description"><?php esc_html_e( "Select the taxonomies to be exclude.", 'carbon-copy' ); ?></span><br />
-	<a class="toggle_link" href="#" onclick="toggle_private_taxonomies();return false;"><?php esc_html_e('Show/hide private taxonomies', 'carbon-copy');?></a><br />
+	<a class="toggle_link" href="#" onclick="toggle_private_taxonomies();return false;"><?php esc_html_e( 'Show/hide private taxonomies', 'carbon-copy' ); ?></a><br />
 	<br />
 
 	<?php
@@ -330,7 +349,12 @@ if( version_compare($wp_version, '4.7') >= 0 )
 	<input type="checkbox" name="carbon_copy_show_original_in_post_states" value="1" <?php if( get_option( 'carbon_copy_show_original_in_post_states' ) == 1 ) echo 'checked="checked"'; ?> /><?php esc_html_e("After the title in the Post list", 'carbon-copy'); ?>
 </label>
 
+	<div style="padding:10px 0px;"></div>
 	<p>Did <a href="https://wordpress.org/plugins/carbon-copy/" target="_blank" title="Opens New Window">this plugin</a> save you time? <a href="https://endurtech.com/give-thanks/" target="_blank" title="Opens New Window"><strong>Share your appreciation</strong></a> and support future improvements.</p>
+	<p><label>
+		<input type="checkbox" name="carbon_copy_cleaner" value="1" <?php if( get_option( 'carbon_copy_cleaner' ) == 1 ) echo 'checked="checked"'; ?> /><?php esc_html_e("Remove Plugin Database Values Upon Deactivation", 'default'); ?>
+	</label></p>
+
 	<p class="submit"><input type="submit" class="button-primary" value="<?php esc_html_e( 'Save Changes', 'carbon-copy' ) ?>" /></p>
 
 </form>

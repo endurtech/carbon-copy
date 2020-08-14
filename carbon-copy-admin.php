@@ -1,5 +1,5 @@
 <?php
-// Admin page
+// Admin only page
 if( ! is_admin() )
 	return;
 
@@ -76,7 +76,6 @@ function carbon_copy_admin_init()
 	add_action( 'admin_notices', 'carbon_copy_action_admin_notice' );
 	
 	add_filter( 'plugin_row_meta', 'carbon_copy_add_plugin_links', 10, 2 );
-
 }
 
 // Plugin upgrade
@@ -132,36 +131,50 @@ function carbon_copy_plugin_upgrade()
 	add_option( 'carbon_copy_copythumbnail', '1' );
 	add_option( 'carbon_copy_copytemplate', '1' );
 	add_option( 'carbon_copy_copyformat', '1' );
-	add_option( 'carbon_copy_copyauthor', '0' );
+	add_option( 'carbon_copy_copyauthor', '1' );
 	add_option( 'carbon_copy_copypassword', '0' );
 	add_option( 'carbon_copy_copyattachments', '0' );
 	add_option( 'carbon_copy_copychildren', '0' );
 	add_option( 'carbon_copy_copycomments', '0' );
-	add_option( 'carbon_copy_copymenuorder', '1' );
-	add_option( 'carbon_copy_taxonomies_blacklist',array() );
-	add_option( 'carbon_copy_blacklist', '' );
+	add_option( 'carbon_copy_copymenuorder', '0' );
+
+	add_option( 'carbon_copy_widgets', '1' );
+	
+	// ! carbon copy roles
+	
 	add_option( 'carbon_copy_types_enabled', array( 'post', 'page' ) );
+
+	add_option( 'carbon_copy_taxonomies_blacklist', array() );
+
+	// ! prefix
+	// ! suffix
+	// ! increase menu order by
+	add_option( 'carbon_copy_blacklist', '' );
+
 	add_option( 'carbon_copy_show_row', '1' );
 	add_option( 'carbon_copy_show_adminbar', '1' );
 	add_option( 'carbon_copy_show_submitbox', '1' );
-	add_option( 'carbon_copy_show_bulkactions', '1' );
+	add_option( 'carbon_copy_show_bulkactions', '0' );
+
 	add_option( 'carbon_copy_show_original_column', '0' );
 	add_option( 'carbon_copy_show_original_in_post_states', '0' );
 	add_option( 'carbon_copy_show_original_meta_box', '0' );
+
+	add_option( 'carbon_copy_cleaner', '1' );
 	
 	$taxonomies_blacklist = get_option( 'carbon_copy_taxonomies_blacklist' );
 	
 	if( $taxonomies_blacklist == "" )
 		$taxonomies_blacklist = array();
 	
-	if( in_array( 'post_format',$taxonomies_blacklist ) )
+	if( in_array( 'post_format', $taxonomies_blacklist ) )
 	{
 		update_option( 'carbon_copy_copyformat', 0 );
 		$taxonomies_blacklist = array_diff( $taxonomies_blacklist, array( 'post_format' ) );
 		update_option( 'carbon_copy_taxonomies_blacklist', $taxonomies_blacklist );
 	}
 	
-	$meta_blacklist = explode( ",",get_option( 'carbon_copy_blacklist' ) );
+	$meta_blacklist = explode( ",", get_option( 'carbon_copy_blacklist' ) );
 	
 	if( $meta_blacklist == "" )
 		$meta_blacklist = array();
@@ -179,7 +192,7 @@ function carbon_copy_plugin_upgrade()
 		$meta_blacklist = array_diff( $meta_blacklist, array( '_thumbnail_id' ) );
 	}
 	
-	update_option( 'carbon_copy_blacklist', implode( ',',$meta_blacklist ) );
+	update_option( 'carbon_copy_blacklist', implode( ',', $meta_blacklist ) );
 
 	delete_option( 'carbon_copy_admin_user_level' );
 	delete_option( 'carbon_copy_create_user_level' );
@@ -191,14 +204,18 @@ function carbon_copy_plugin_upgrade()
 	
 }
 
-function carbon_copy_show_original_column() {
+function carbon_copy_show_original_column()
+{
 	$carbon_copy_types_enabled = get_option( 'carbon_copy_types_enabled', array( 'post', 'page' ) );
-	if ( ! is_array( $carbon_copy_types_enabled ) ) {
+	if( ! is_array( $carbon_copy_types_enabled ) )
+	{
 		$carbon_copy_types_enabled = array( $carbon_copy_types_enabled );
 	}
 
-	if ( count( $carbon_copy_types_enabled ) ) {
-		foreach ( $carbon_copy_types_enabled as $enabled_post_type ) {
+	if( count( $carbon_copy_types_enabled ) )
+	{
+		foreach( $carbon_copy_types_enabled as $enabled_post_type )
+		{
 			add_filter( "manage_{$enabled_post_type}_posts_columns", 'carbon_copy_add_original_column' );
 			add_action( "manage_{$enabled_post_type}_posts_custom_column", 'carbon_copy_show_original_item', 10, 2 );
 		}
@@ -208,16 +225,20 @@ function carbon_copy_show_original_column() {
 	}
 }
 
-function carbon_copy_add_original_column( $post_columns ) {
+function carbon_copy_add_original_column( $post_columns )
+{
 	$post_columns['carbon_copy_original_item'] = __( 'Original item', 'carbon-copy' );
 	return $post_columns;
 }
 
-function carbon_copy_show_original_item( $column_name, $post_id ) {
-	if ( 'carbon_copy_original_item' === $column_name ) {
+function carbon_copy_show_original_item( $column_name, $post_id )
+{
+	if( 'carbon_copy_original_item' === $column_name )
+	{
 		$column_value = '<span data-no_original>-</span>';
 		$original_item = carbon_copy_get_original( $post_id );
-		if ( $original_item ) {
+		if( $original_item )
+		{
 			$column_value = carbon_copy_get_edit_or_view_link( $original_item );
 		}
 		echo $column_value;
@@ -226,25 +247,19 @@ function carbon_copy_show_original_item( $column_name, $post_id ) {
 
 function carbon_copy_quick_edit_remove_original( $column_name, $post_type )
 {
-	if ( 'carbon_copy_original_item' != $column_name )
+	if( 'carbon_copy_original_item' != $column_name )
 	{
 		return;
 	}
 
-	printf(
-'<fieldset class="inline-edit-col-right" id="carbon_copy_quick_edit_fieldset">
-			<div class="inline-edit-col">
-        		<label class="alignleft">
-					<input type="checkbox" name="carbon_copy_remove_original" value="carbon_copy_remove_original">
-					<span class="checkbox-title">%s</span>
-				</label>
-			</div>
-		</fieldset>',
-		__(
-			'Delete reference to original item: <span class="carbon_copy_original_item_title_span"></span>',
-			'carbon-copy'
-			)
-	);
+	printf('<fieldset class="inline-edit-col-right" id="carbon_copy_quick_edit_fieldset">
+	<div class="inline-edit-col">
+		<label class="alignleft">
+			<input type="checkbox" name="carbon_copy_remove_original" value="carbon_copy_remove_original">
+			<span class="checkbox-title">%s</span>
+		</label>
+	</div>
+	</fieldset>', __( 'Delete reference to original item: <span class="carbon_copy_original_item_title_span"></span>', 'carbon-copy' ) );
 }
 
 function carbon_copy_save_quick_edit_data( $post_id )
@@ -276,11 +291,12 @@ function carbon_copy_show_original_in_post_states( $post_states, $post )
 	return $post_states;
 }
 
-function carbon_copy_admin_enqueue_scripts( $hook ) {
-	if ( 'edit.php' === $hook )
+function carbon_copy_admin_enqueue_scripts( $hook )
+{
+	if( 'edit.php' === $hook )
 	{
 		###wp_enqueue_script( 'carbon_copy_admin_script', plugins_url( 'carbon-copy.js', __FILE__ ), false, CARBON_COPY_CURRENT_VERSION, true );
-		?>
+?>
 <script>
 (function( jQuery )
 {
@@ -293,11 +309,11 @@ function carbon_copy_admin_enqueue_scripts( $hook ) {
 		$wp_inline_edit.apply( this, arguments );
 		// Get post ID
 		var $post_id = 0;
-		if ( typeof( id ) == 'object' )
+		if( typeof( id ) == 'object' )
 		{
 			$post_id = parseInt( this.getId( id ) );
 		}
-		if ( $post_id > 0 )
+		if( $post_id > 0 )
 		{
 			// Define edit row
 			var $edit_row = jQuery( '#edit-' + $post_id );
@@ -306,11 +322,13 @@ function carbon_copy_admin_enqueue_scripts( $hook ) {
 			var has_original = ( jQuery( '.carbon_copy_original_item span[data-no_original]', $post_row ).length === 0 );
 			var original = jQuery( '.carbon_copy_original_item', $post_row ).html();
 			// Populate data
-			if ( has_original )
+			if( has_original )
 			{
 				jQuery( '.carbon_copy_original_item_title_span', $edit_row ).html( original );
 				jQuery( '#carbon_copy_quick_edit_fieldset', $edit_row ).show();
-			} else {
+			}
+			else
+			{
 				jQuery( '#carbon_copy_quick_edit_fieldset', $edit_row ).hide();
 				jQuery( '.carbon_copy_original_item_title_span', $edit_row ).html( '' );
 			}
@@ -318,7 +336,7 @@ function carbon_copy_admin_enqueue_scripts( $hook ) {
 	};
 } )( jQuery );
 </script>
-		<?php
+<?php
 	}
 }
 
@@ -344,38 +362,38 @@ function carbon_copy_custom_box_html( $post )
 	$original_item = carbon_copy_get_original( $post->ID );
 	if( $original_item )
 	{
-	?>
-	<label>
-		<input type="checkbox" name="carbon_copy_remove_original" value="carbon_copy_remove_original">
-		<?php printf( __( 'Delete reference to original item: <span class="carbon_copy_original_item_title_span">%s</span>', 'carbon-copy' ), carbon_copy_get_edit_or_view_link( $original_item ) ); ?>
-	</label>
-	<?php
+?>
+<label>
+	<input type="checkbox" name="carbon_copy_remove_original" value="carbon_copy_remove_original">
+	<?php printf( __( 'Delete reference to original item: <span class="carbon_copy_original_item_title_span">%s</span>', 'carbon-copy' ), carbon_copy_get_edit_or_view_link( $original_item ) ); ?>
+</label>
+<?php
 	}
 	else
 	{
-		?>
+?>
 <script>
 (function(jQuery)
 {
 	jQuery( '#carbon_copy_show_original' ).hide();
 })(jQuery);
 </script>
-		<?php
+<?php
 	}
 }
 
 // Add link to action list for 'post_row_actions'
-function carbon_copy_make_duplicate_link_row($actions, $post)
+function carbon_copy_make_duplicate_link_row( $actions, $post )
 {
 	if( carbon_copy_is_current_user_allowed_to_copy() && carbon_copy_is_post_type_enabled( $post->post_type ) )
 	{
 		$title = _draft_or_post_title( $post );
-		$actions['clone'] = '<a href="'.carbon_copy_get_clone_post_link( $post->ID , 'display', false).'" aria-label="'
-				. esc_attr( sprintf( __('Copy &#8220;%s&#8221;', 'carbon-copy'), $title ) )
-				. '">' .  esc_html__('Copy', 'carbon-copy') . '</a>';
+		$actions['clone'] = '<a href="'.carbon_copy_get_clone_post_link( $post->ID , 'display', false ).'" aria-label="'
+				. esc_attr( sprintf( __( 'Copy &#8220;%s&#8221;', 'carbon-copy' ), $title ) )
+				. '">' .  esc_html__( 'Copy', 'carbon-copy' ) . '</a>';
 		$actions['edit_as_new_draft'] = '<a href="'. carbon_copy_get_clone_post_link( $post->ID ) .'" aria-label="'
-				. esc_attr( sprintf( __('Copy &#8220;%s&#8221; to new draft', 'carbon-copy'), $title ) )
-				. '">' .  esc_html__('New Draft', 'carbon-copy') . '</a>';
+				. esc_attr( sprintf( __( 'Copy &#8220;%s&#8221; to new draft', 'carbon-copy' ), $title ) )
+				. '">' .  esc_html__( 'New Draft', 'carbon-copy' ) . '</a>';
 	}
 	return $actions;
 }
@@ -391,7 +409,7 @@ function carbon_copy_add_carbon_copy_button()
 		{
 ?>
 <div id="duplicate-action">
-	<a class="submitduplicate duplication" href="<?php echo esc_url( carbon_copy_get_clone_post_link( $id ) ); ?>"><?php esc_html_e('Copy to new draft', 'carbon-copy'); ?></a>
+	<a class="submitduplicate duplication" href="<?php echo esc_url( carbon_copy_get_clone_post_link( $id ) ); ?>"><?php esc_html_e( 'Copy to new draft', 'carbon-copy' ); ?></a>
 </div>
 <?php
 		}
@@ -415,7 +433,7 @@ function carbon_copy_save_as_new_post( $status = '' )
 {
 	if( ! carbon_copy_is_current_user_allowed_to_copy() )
 	{
-		wp_die( esc_html__('Current user is not allowed to copy posts.', 'carbon-copy') );
+		wp_die( esc_html__( 'Current user is not allowed to copy posts.', 'carbon-copy' ) );
 	}
 	
 	if( ! ( isset( $_GET['post'] ) || isset( $_POST['post'] ) || ( isset( $_REQUEST['action'] ) && 'carbon_copy_save_as_new_post' == $_REQUEST['action'] ) ) )
@@ -450,7 +468,7 @@ function carbon_copy_save_as_new_post( $status = '' )
 				strpos( $sendback, 'post.php' ) !== false ||
 				strpos( $sendback, 'post-new.php' ) !== false )
 			{
-				if ( 'attachment' == $post_type )
+				if( 'attachment' == $post_type )
 				{
 					$sendback = admin_url( 'upload.php' );
 				}
@@ -465,7 +483,7 @@ function carbon_copy_save_as_new_post( $status = '' )
 			}
 			else
 			{
-				$sendback = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'cloned', 'ids'), $sendback );
+				$sendback = remove_query_arg( array( 'trashed', 'untrashed', 'deleted', 'cloned', 'ids' ), $sendback );
 			}
 			// Redirect to post list screen
 			wp_redirect( add_query_arg( array( 'cloned' => 1, 'ids' => $post->ID), $sendback ) );
@@ -480,14 +498,15 @@ function carbon_copy_save_as_new_post( $status = '' )
 	}
 	else
 	{
-		wp_die( esc_html__('Copy creation failed, could not find original:', 'carbon-copy') . ' ' . htmlspecialchars( $id ) );
+		wp_die( esc_html__( 'Copy creation failed, could not find original:', 'carbon-copy' ) . ' ' . htmlspecialchars( $id ) );
 	}
 }
 
 // Copy post taxonomies to another post
-function carbon_copy_copy_post_taxonomies($new_id, $post)
+function carbon_copy_copy_post_taxonomies( $new_id, $post )
 {
 	global $wpdb;
+
 	if( isset( $wpdb->terms ) )
 	{
 		// Clear default category (added by 'wp_insert_post')
@@ -623,11 +642,9 @@ function carbon_copy_copy_attachments( $new_id, $post )
 			@unlink($tmp);
 			continue;
 		}
-
 		$desc = wp_slash( $child->post_content );
-
 		$file_array = array();
-		$file_array['name'] = basename($url);
+		$file_array['name'] = basename( $url );
 		$file_array['tmp_name'] = $tmp;
 		// Upload media collection
 		$new_attachment_id = media_handle_sideload( $file_array, $new_id, $desc );
@@ -646,10 +663,8 @@ function carbon_copy_copy_attachments( $new_id, $post )
 				'post_author'  => $new_post_author->ID
 		);
 		wp_update_post( wp_slash( $cloned_child ) );
-
 		$alt_title = get_post_meta( $child->ID, '_wp_attachment_image_alt', true );
 		if( $alt_title ) update_post_meta( $new_attachment_id, '_wp_attachment_image_alt', wp_slash( $alt_title ) );
-
 		// If post thumbnail was copied, set new thumbnail copy for new post
 		if( get_option( 'carbon_copy_copythumbnail' ) == 1 && $old_thumbnail_id == $child->ID )
 		{
@@ -713,7 +728,7 @@ function carbon_copy_copy_comments( $new_id, $post )
 }
 
 // Create post copy
-function carbon_copy_create_duplicate($post, $status = '', $parent_id = '')
+function carbon_copy_create_duplicate( $post, $status = '', $parent_id = '' )
 {
 	do_action('carbon_copy_pre_copy');
 
@@ -824,13 +839,13 @@ function carbon_copy_create_duplicate($post, $status = '', $parent_id = '')
 		'post_name' => $post_name
 	);
 
-	if(get_option( 'carbon_copy_copydate' ) == 1 )
+	if( get_option( 'carbon_copy_copydate' ) == 1 )
 	{
-		$new_post['post_date'] = $new_post_date =  $post->post_date ;
+		$new_post['post_date'] = $new_post_date =  $post->post_date;
 		$new_post['post_date_gmt'] = get_gmt_from_date( $new_post_date );
 	}
 
-	$new_post_id = wp_insert_post(wp_slash( $new_post ) );
+	$new_post_id = wp_insert_post( wp_slash( $new_post ) );
 
 	// If you have written a plugin which uses non-WP database tables to save
 	// information about a post you can hook this action to duplicate that data.
@@ -853,26 +868,26 @@ function carbon_copy_create_duplicate($post, $status = '', $parent_id = '')
 // Admin notices
 function carbon_copy_action_admin_notice()
 {
-  if( ! empty( $_REQUEST['cloned'] ) )
-  {
-    $copied_posts = intval( $_REQUEST['cloned'] );
-    printf( '<div id="message" class="updated fade"><p>' . 
+	if( ! empty( $_REQUEST['cloned'] ) )
+	{
+		$copied_posts = intval( $_REQUEST['cloned'] );
+		printf( '<div id="message" class="updated fade"><p>' . 
 		_n( '%s item copied.',
         '%s items copied.',
         $copied_posts,
-        'carbon-copy'
-      ) . '</p></div>', $copied_posts );
-    remove_query_arg( 'cloned' );
-  }
+		'carbon-copy'
+		) . '</p></div>', $copied_posts );
+    	remove_query_arg( 'cloned' );
+	}
 }
 
 // Plugin page additional links
 function carbon_copy_add_plugin_links( $links, $file )
 {
-	if( $file == plugin_basename(dirname(__FILE__).'/carbon-copy.php') )
+	if( $file == plugin_basename( dirname(__FILE__).'/carbon-copy.php' ) )
 	{
 		#$links[] = '<a href="https://endurtech.com/carbon-copy-wordpress-plugin/" aria-label="' . esc_attr__('Documentation for Carbon Copy', 'carbon-copy') . '">' . esc_html__('Documentation', 'carbon-copy') . '</a>';
-		$links[] = '<a href="https://endurtech.com/give-thanks/" aria-label="' . esc_attr__('Support future improvments Donate to Carbon Copy', 'carbon-copy') . '">' . '<strong>' . esc_html__('Donate', 'carbon-copy') . '</strong></a>';
+		$links[] = '<a href="https://endurtech.com/give-thanks/" aria-label="' . esc_attr__( 'Support future improvments Donate to Carbon Copy', 'carbon-copy' ) . '">' . '<strong>' . esc_html__( 'Donate', 'carbon-copy' ) . '</strong></a>';
 	}
 	return $links;
 }
@@ -916,10 +931,10 @@ function carbon_copy_action_handler( $redirect_to, $doaction, $post_ids )
 				|| ! is_post_type_hierarchical( $post->post_type )
 				|| ( is_post_type_hierarchical( $post->post_type ) && ! carbon_copy_has_ancestors_marked( $post, $post_ids ) ) )
 			{
-					if( carbon_copy_create_duplicate( $post ) )
-					{
-						$counter++;
-					}
+				if( carbon_copy_create_duplicate( $post ) )
+				{
+					$counter++;
+				}
 			}
 		}
 	}
@@ -939,4 +954,110 @@ function carbon_copy_has_ancestors_marked( $post, $post_ids )
 		}
 	}
 	return( $ancestors_in_array !== 0 );
+}
+
+// Carbon Copy Widgets
+$carbon_copy_widgets_init = get_option( 'carbon_copy_widgets' );
+if( $carbon_copy_widgets_init == '1' )
+{
+	class Carbon_Copy_Widgets
+	{
+		function __construct()
+		{
+			add_filter( 'admin_head', array( $this, 'clone_script'  )  );
+		}
+
+		function clone_script()
+		{
+			global $pagenow;
+
+			if( $pagenow != 'widgets.php' )
+			{
+				return;
+			}
+			?>
+
+<script>
+(function($)
+{
+	if( !window.CarbonCopy ) window.CarbonCopy = {};
+
+	CarbonCopy.CloneWidgets = {
+		
+		init: function()
+		{
+			$('body').on('click', '.widget-control-actions .clone-me', CarbonCopy.CloneWidgets.Clone);
+			CarbonCopy.CloneWidgets.Bind();
+		},
+
+		Bind: function()
+		{
+			$('#widgets-right').off('DOMSubtreeModified', CarbonCopy.CloneWidgets.Bind);
+			$('.widget-control-actions:not(.carboncopy-cloneable)').each(function() {
+				var $widget = $(this);
+				var $clone = $( '<a>' );
+				var clone = $clone.get()[0];
+				$clone.addClass( 'clone-me carboncopy-clone-action' )
+							.attr( 'title', 'Copy this Widget' )
+							.attr( 'href', '#' )
+							.html( 'Copy' );
+				$widget.addClass('carboncopy-cloneable');
+				$clone.insertAfter( $widget.find( '.alignleft .widget-control-remove') );
+				clone.insertAdjacentHTML( 'beforebegin', ' | ' );
+			});
+			$('#widgets-right').on('DOMSubtreeModified', CarbonCopy.CloneWidgets.Bind);
+		},
+
+		Clone: function(ev)
+		{
+			var $original = $(this).parents('.widget');
+			var $widget = $original.clone();
+			// Find Widget ID. Find Widget number. Duplicate.
+			var idbase = $widget.find('input[name="id_base"]').val();
+			var number = $widget.find('input[name="widget_number"]').val();
+			var mnumber = $widget.find('input[name="multi_number"]').val();
+			var highest = 0;
+			$('input.widget-id[value|="' + idbase + '"]').each(function()
+			{
+				var match = this.value.match(/-(\d+)$/);
+				if( match && parseInt( match[1]) > highest )
+					highest = parseInt(match[1]);
+			});
+			var newnum = highest + 1;
+			$widget.find('.widget-content').find('input,select,textarea').each(function()
+			{
+				if($(this).attr('name'))
+					$(this).attr('name', $(this).attr('name').replace(number, newnum));
+			});
+			// Assign Unique ID to Widget
+			var highest = 0;
+			$('.widget').each(function()
+			{
+				var match = this.id.match(/^widget-(\d+)/);
+				if(match && parseInt(match[1]) > highest)
+					highest = parseInt(match[1]);
+			});
+			var newid = highest + 1;
+			// Find value of add_new from original widget
+			var add = $('#widget-list .id_base[value="' + idbase + '"]').siblings('.add_new').val();
+			$widget[0].id = 'widget-' + newid + '_' + idbase + '-' + newnum;
+			$widget.find('input.widget-id').val(idbase+'-'+newnum);
+			$widget.find('input.widget_number').val(newnum);
+			$widget.hide();
+			$original.after($widget);
+			$widget.fadeIn();
+			$widget.find('.multi_number').val(newnum);
+			wpWidgets.save($widget, 0, 0, 1);
+			ev.stopPropagation();
+			ev.preventDefault();
+		}
+	}
+	$(CarbonCopy.CloneWidgets.init);
+})(jQuery);
+</script>
+
+			<?php
+		}
+	}
+	new Carbon_Copy_Widgets();
 }
