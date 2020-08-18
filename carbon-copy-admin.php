@@ -21,7 +21,7 @@ add_action( 'admin_init', 'carbon_copy_admin_init' );
 function carbon_copy_admin_init()
 {
 	carbon_copy_plugin_upgrade();
-	if( get_option( 'carbon_copy_show_row') == 1 )
+	if( get_option( 'carbon_copy_show_row' ) == 1 )
 	{
 		add_filter( 'post_row_actions', 'carbon_copy_make_duplicate_link_row', 10, 2 );
 		add_filter( 'page_row_actions', 'carbon_copy_make_duplicate_link_row', 10, 2 );
@@ -53,19 +53,19 @@ function carbon_copy_admin_init()
 	add_action( 'cc_carbon_copy', 'carbon_copy_copy_post_meta_info', 10, 2 );
 	add_action( 'cc_duplicate_page', 'carbon_copy_copy_post_meta_info', 10, 2 );
 	
-	if( get_option( 'carbon_copy_copychildren') == 1 )
+	if( get_option( 'carbon_copy_copychildren' ) == 1 )
 	{
 		add_action( 'cc_carbon_copy', 'carbon_copy_copy_children', 20, 3 );
 		add_action( 'cc_duplicate_page', 'carbon_copy_copy_children', 20, 3 );
 	}
 	
-	if( get_option( 'carbon_copy_copyattachments') == 1 )
+	if( get_option( 'carbon_copy_copyattachments' ) == 1 )
 	{
 		add_action( 'cc_carbon_copy', 'carbon_copy_copy_attachments', 30, 2 );
 		add_action( 'cc_duplicate_page', 'carbon_copy_copy_attachments', 30, 2 );
 	}
 	
-	if( get_option( 'carbon_copy_copycomments') == 1 )
+	if( get_option( 'carbon_copy_copycomments' ) == 1 )
 	{
 		add_action( 'cc_carbon_copy', 'carbon_copy_copy_comments', 40, 2 );
 		add_action( 'cc_duplicate_page', 'carbon_copy_copy_comments', 40, 2 );
@@ -111,7 +111,7 @@ function carbon_copy_plugin_upgrade()
 				3 => 'editor',
 				8 => 'administrator',
 			);
-			// Cycle all roles and assign capability if level >= 'carbon_copy_copy_user_level'
+			// Cycle roles and assign capability if level >= 'carbon_copy_copy_user_level'
 			foreach( $default_roles as $level => $name )
 			{
 				$role = get_role( $name );
@@ -303,7 +303,7 @@ function carbon_copy_admin_enqueue_scripts( $hook )
 	// Copy of wp inline edit post function
 	var $wp_inline_edit = inlineEditPost.edit;
 	// Overwrite with custom function
-	inlineEditPost.edit = function( id )
+	inlineEditPost.edit = function( id ) 
 	{
 		// Call original wp edit function, otherwise will hang
 		$wp_inline_edit.apply( this, arguments );
@@ -634,12 +634,12 @@ function carbon_copy_copy_attachments( $new_id, $post )
 	{
 		if( $child->post_type != 'attachment' )
 			continue;
-		$url = wp_get_attachment_url($child->ID);
+		$url = wp_get_attachment_url( $child->ID );
 		// Copy file
 		$tmp = download_url( $url );
 		if( is_wp_error( $tmp ) )
 		{
-			@unlink($tmp);
+			@unlink( $tmp );
 			continue;
 		}
 		$desc = wp_slash( $child->post_content );
@@ -656,8 +656,8 @@ function carbon_copy_copy_attachments( $new_id, $post )
 		}
 		$new_post_author = wp_get_current_user();
 		$cloned_child = array(
-				'ID'           => $new_attachment_id,
-				'post_title'   => $child->post_title,
+				'ID' => $new_attachment_id,
+				'post_title' => $child->post_title,
 				'post_excerpt' => $child->post_excerpt,
 				'post_content' => $child->post_content,
 				'post_author'  => $new_post_author->ID
@@ -677,7 +677,7 @@ function carbon_copy_copy_attachments( $new_id, $post )
 function carbon_copy_copy_children( $new_id, $post, $status = '' )
 {
 	// Get children
-	$children = get_posts(array( 'post_type' => 'any', 'numberposts' => -1, 'post_status' => 'any', 'post_parent' => $post->ID ) );
+	$children = get_posts( array( 'post_type' => 'any', 'numberposts' => -1, 'post_status' => 'any', 'post_parent' => $post->ID ) );
 	// Clone old attachments
 	foreach( $children as $child )
 	{
@@ -730,10 +730,10 @@ function carbon_copy_copy_comments( $new_id, $post )
 // Create post copy
 function carbon_copy_create_duplicate( $post, $status = '', $parent_id = '' )
 {
-	do_action('carbon_copy_pre_copy');
+	do_action( 'carbon_copy_pre_copy' );
 
 	if( ! carbon_copy_is_post_type_enabled( $post->post_type ) && $post->post_type != 'attachment' )
-		wp_die(esc_html__('Copy features for this post type are not enabled in options page', 'carbon-copy'));
+		wp_die( esc_html__( 'Copy features for this post type are not enabled in options page', 'carbon-copy' ) );
 
 	$new_post_status = ( empty( $status ) )? $post->post_status : $status;
 	
@@ -757,7 +757,7 @@ function carbon_copy_create_duplicate( $post, $status = '', $parent_id = '' )
 		if( $title == '' )
 		{
 			// empty title
-			$title = __('Untitled', 'default');
+			$title = __( 'Untitled', 'default' );
 		}
 		if( get_option( 'carbon_copy_copystatus' ) == 0 )
 		{
@@ -859,7 +859,6 @@ function carbon_copy_create_duplicate( $post, $status = '', $parent_id = '' )
 	
 		delete_post_meta( $new_post_id, '_cc_original' );
 		add_post_meta( $new_post_id, '_cc_original', $post->ID );
-	
 		do_action( 'carbon_copy_post_copy' );
 	}
 	return $new_post_id;
