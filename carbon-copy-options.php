@@ -231,8 +231,10 @@ jQuery( function()
 	$taxonomies = get_taxonomies( array(), 'objects' );
 	usort( $taxonomies, 'carbon_copy_tax_obj_cmp' );
 	$taxonomies_blacklist = get_option( 'carbon_copy_taxonomies_blacklist' );
-	if( $taxonomies_blacklist == "" )
+	if( ! is_array( $taxonomies_blacklist ) )
+	{
 		$taxonomies_blacklist = array();
+	}
 	foreach( $taxonomies as $taxonomy ) : 
 		if( $taxonomy->name == 'post_format' )
 		{
