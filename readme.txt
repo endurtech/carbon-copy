@@ -6,7 +6,7 @@ License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.0
 Tested up to: 5.5
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 
 Copy pages, posts, widgets and more quickly and conveniently.
 
@@ -49,6 +49,10 @@ Use the Add New Plugin feature within your WordPress site and search for "Carbon
 
 == Changelog ==
 
+= 1.1.1 (2020-09-17) =
+* Checks user permissions for bulk actions, function renamed
+* Updated check for comment type
+* Taxonomies blacklist check updated
 = 1.1.0 (2020-08-14) =
 * Added toggle option to copy and duplicate widgets
 * Added toggle option to clean stored plugin database values upon deactivation
