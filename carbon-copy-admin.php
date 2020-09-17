@@ -892,12 +892,17 @@ function carbon_copy_add_plugin_links( $links, $file )
 }
 
 // Bulk actions
-add_action( 'admin_init', 'carbon_copy_add_bulk_filters_for_enabled_post_types' );
-function carbon_copy_add_bulk_filters_for_enabled_post_types()
+add_action( 'admin_init', 'carbon_copy_add_bulk_filters' );
+function carbon_copy_add_bulk_filters()
 {
 	if( get_option( 'carbon_copy_show_bulkactions' ) != 1 )
+	{
 		return;
-	
+	}
+	if( ! duplicate_post_is_current_user_allowed_to_copy() )
+	{
+		return;
+	}
 	$carbon_copy_types_enabled = get_option( 'carbon_copy_types_enabled', array( 'post', 'page' ) );
 	if( ! is_array( $carbon_copy_types_enabled ) )
 		$carbon_copy_types_enabled = array( $carbon_copy_types_enabled );
