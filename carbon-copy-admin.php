@@ -409,7 +409,7 @@ function carbon_copy_add_carbon_copy_button()
 		{
 ?>
 <div id="duplicate-action">
-	<a class="submitduplicate duplication" href="<?php echo esc_url( carbon_copy_get_clone_post_link( $id ) ); ?>"><?php esc_html_e( 'Copy to new draft', 'carbon-copy' ); ?></a>
+	<a class="submitduplicate duplication" href="<?php echo esc_url( carbon_copy_get_clone_post_link( $id ) ); ?>"><?php esc_html_e( 'Copy to Draft', 'carbon-copy' ); ?></a>
 </div>
 <?php
 		}

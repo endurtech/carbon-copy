@@ -71,9 +71,9 @@ function carbon_copy_clone_post_link( $link = null, $before = '', $after = '', $
 		return;
 	
 	if( null === $link )
-		$link = esc_html__('Copy to new draft', 'carbon-copy' );
+		$link = esc_html__('Copy to Draft', 'carbon-copy' );
 	
-	$link = '<a class="post-clone-link" href="' . $url . '" title="' . esc_attr__("Copy to new draft", 'carbon-copy') .'">' . $link . '</a>';
+	$link = '<a class="post-clone-link" href="' . $url . '" title="' . esc_attr__("Copy to Draft", 'carbon-copy') .'">' . $link . '</a>';
 
 	echo $before . apply_filters( 'carbon_copy_clone_post_link', $link, $post->ID ) . $after;
 }
@@ -186,7 +186,7 @@ function carbon_copy_admin_bar_render()
 		{
 			$wp_admin_bar->add_menu( array(
 	        	'id' => 'new_draft',
-	        	'title' => esc_attr__("Copy to new draft", 'carbon-copy'),
+	        	'title' => esc_attr__("Copy to Draft", 'carbon-copy'),
 	        	'href' => carbon_copy_get_clone_post_link( $current_object->ID )
 			) );
 		}
@@ -201,7 +201,7 @@ function carbon_copy_admin_bar_render()
 		{
 			$wp_admin_bar->add_menu( array(
 				'id' => 'new_draft',
-				'title' => esc_attr__("Copy to new draft", 'carbon-copy'),
+				'title' => esc_attr__("Copy to Draft", 'carbon-copy'),
 				'href' => carbon_copy_get_clone_post_link( $id )
 			) );
 		}
