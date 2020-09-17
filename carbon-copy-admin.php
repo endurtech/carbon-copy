@@ -899,7 +899,7 @@ function carbon_copy_add_bulk_filters()
 	{
 		return;
 	}
-	if( ! duplicate_post_is_current_user_allowed_to_copy() )
+	if( ! carbon_copy_is_current_user_allowed_to_copy() )
 	{
 		return;
 	}
