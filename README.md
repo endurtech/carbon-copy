@@ -51,6 +51,7 @@ Use the Add New Plugin feature within your WordPress site and search for "Carbon
   * Checks user permissions for bulk actions, function renamed
   * Updated check for comment type
   * Taxonomies blacklist check updated
+  * Link text update, New Draft to just Draft
 * 1.1.0 (2020-08-14)
   * Added toggle option to copy and duplicate widgets
   * Added toggle option to clean stored plugin database values upon deactivation
