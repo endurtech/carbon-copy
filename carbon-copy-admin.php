@@ -700,7 +700,7 @@ function carbon_copy_copy_comments( $new_id, $post )
 	foreach( $comments as $comment )
 	{
 		// Do Not copy pingbacks or trackbacks
-		if( ! empty( $comment->comment_type ) )
+		if( $comment->comment_type === "pingback" || $comment->comment_type === "trackback" )
 			continue;
 		$parent = ( $comment->comment_parent && $old_id_to_new[$comment->comment_parent] ) ? $old_id_to_new[$comment->comment_parent] : 0;
 		$commentdata = array(
@@ -709,7 +709,7 @@ function carbon_copy_copy_comments( $new_id, $post )
 			'comment_author_email' => $comment->comment_author_email,
 			'comment_author_url' => $comment->comment_author_url,
 			'comment_content' => $comment->comment_content,
-			'comment_type' => '', 
+			'comment_type' => $comment->comment_type,
 			'comment_parent' => $parent,
 			'user_id' => $comment->user_id,
 			'comment_author_IP' => $comment->comment_author_IP,
