@@ -5,7 +5,7 @@ Donations: https://endurtech.com/give-thanks/
 Tags: duplicate, page, post, copy, clone, custom post type, widget, replicate  
 Requires WP: 5.0  
 Tested to: 5.5  
-Stable tag: 1.1.0  
+Stable tag: 1.1.1  
 License: GPLv3 or later  
 
 ## Description
@@ -47,6 +47,10 @@ Use the Add New Plugin feature within your WordPress site and search for "Carbon
 
 ## Changelog
 
+* 1.1.1 (2020-09-17)
+  * Checks user permissions for bulk actions, function renamed
+  * Updated check for comment type
+  * Taxonomies blacklist check updated
 * 1.1.0 (2020-08-14)
   * Added toggle option to copy and duplicate widgets
   * Added toggle option to clean stored plugin database values upon deactivation
