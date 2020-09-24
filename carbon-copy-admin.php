@@ -30,12 +30,6 @@ function carbon_copy_admin_init()
 	{
 		add_action( 'post_submitbox_start', 'carbon_copy_add_carbon_copy_button' );
 	}
-
-
-			# ROX EDIT
-			add_action( 'post_row_actions', 'carbon_copy_add_copymenu_button' );
-
-
 	if( get_option( 'carbon_copy_show_original_column' ) == 1 )
 	{
 		carbon_copy_show_original_column();
