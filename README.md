@@ -5,7 +5,7 @@ Donations: https://endurtech.com/give-thanks/
 Tags: duplicate, page, pages, post, posts, widget, widgets, menu, menus, custom post type, copy, clone, replicate
 Requires WP: 5.0  
 Tested to: 5.5  
-Stable tag: 1.2.0  
+Stable tag: 1.2.2  
 License: GPLv3 or later  
 
 ## Description
@@ -49,7 +49,7 @@ Use the Add New Plugin feature within your WordPress site and search for "Carbon
 
 ## Changelog
 
-= 1.2.2 (2020-09-24) =
+* 1.2.2 (2020-09-24)
   * New shortcuts added to Widget and Menu Copy options from Settings menu.
   * Ability to set new menu names from Menu Copy page.
 * 1.2.0 (2020-10-01)
