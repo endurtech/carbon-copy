@@ -2,15 +2,15 @@
 
 Contributors: Manny Rodrigues  
 Donations: https://endurtech.com/give-thanks/  
-Tags: duplicate, page, post, copy, clone, custom post type, widget, replicate  
+Tags: duplicate, page, pages, post, posts, widget, widgets, menu, menus, custom post type, copy, clone, replicate
 Requires WP: 5.0  
 Tested to: 5.5  
-Stable tag: 1.1.1  
+Stable tag: 1.2.0  
 License: GPLv3 or later  
 
 ## Description
 
-> Are you ready to increase your productivity? This free WordPress plugin will allow you to quickly and conveniently copy your pages, posts, widgets and even your custom post types. You can quickly copy, bulk copy and copy straight to new drafts.  
+> Are you ready to increase your productivity? This free WordPress plugin will allow you to quickly and conveniently copy your pages, posts, menus, widgets and even your custom post types. You can quickly copy, bulk copy and copy straight to new drafts.  
 
 Carbon Copy has many useful settings to customize its behavior, restrict its use to certain roles or post types and will increase your productivity. For more information check out the plugin documentation at [the plugin's site](https://endurtech.com/carbon-copy-wordpress-plugin/).  
 
@@ -27,6 +27,7 @@ If you find this free plugin useful, support my work and future improvements to 
 * While viewing a post as a logged in user, you can click on 'Copy to new draft' from the admin bar.
 * Developers can use a **template tag**, for use in your theme to clone your posts/pages from the front-end.
 * Quickly and easily create a copy of any widget with a single click.
+* Copy and rename entire navigational menus using Appearance > Carbon Copy Menu.
 * Toggle option to clean out the plugins' database values upon deactivation.
 
 ## Installation
@@ -42,16 +43,25 @@ Use the Add New Plugin feature within your WordPress site and search for "Carbon
 1. Backend page/post 'Copy' and 'New Draft' links.
 2. Backend page/post Edit screen 'Copy to new draft' links.
 3. Frontend admin bar 'Copy to new draft' link.
-4. Copy Widget link.
-5. Carbon Copy Settings > Options.
+4. Copy Widget link, Appearance > Widgets
+5. Menu Copy page, Appearance > Carbon Copy Menu
+6. Carbon Copy Settings > Options.
 
 ## Changelog
 
+= 1.2.2 (2020-09-24) =
+  * New shortcuts added to Widget and Menu Copy options from Settings menu.
+  * Ability to set new menu names from Menu Copy page.
+* 1.2.0 (2020-10-01)
+  * NEW Menu copy feature introduced. Available under Appearance > Carbon Copy Menu. Working to integrate with main Menu page.
+  * Other code improvements
+* 1.1.2 (2020-09-21)
+  * Link text update, New Draft to just Draft
+  * Updated text within action list for 'post_row_actions'
 * 1.1.1 (2020-09-17)
   * Checks user permissions for bulk actions, function renamed
   * Updated check for comment type
   * Taxonomies blacklist check updated
-  * Link text update, New Draft to just Draft
 * 1.1.0 (2020-08-14)
   * Added toggle option to copy and duplicate widgets
   * Added toggle option to clean stored plugin database values upon deactivation

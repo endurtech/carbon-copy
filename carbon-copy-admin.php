@@ -30,6 +30,12 @@ function carbon_copy_admin_init()
 	{
 		add_action( 'post_submitbox_start', 'carbon_copy_add_carbon_copy_button' );
 	}
+
+
+			# ROX EDIT
+			add_action( 'post_row_actions', 'carbon_copy_add_copymenu_button' );
+
+
 	if( get_option( 'carbon_copy_show_original_column' ) == 1 )
 	{
 		carbon_copy_show_original_column();
@@ -139,6 +145,7 @@ function carbon_copy_plugin_upgrade()
 	add_option( 'carbon_copy_copymenuorder', '0' );
 
 	add_option( 'carbon_copy_widgets', '1' );
+	add_option( 'carbon_copy_menus', '0' );
 	
 	// ! carbon copy roles
 	
@@ -388,12 +395,12 @@ function carbon_copy_make_duplicate_link_row( $actions, $post )
 	if( carbon_copy_is_current_user_allowed_to_copy() && carbon_copy_is_post_type_enabled( $post->post_type ) )
 	{
 		$title = _draft_or_post_title( $post );
-		$actions['clone'] = '<a href="'.carbon_copy_get_clone_post_link( $post->ID , 'display', false ).'" aria-label="'
-				. esc_attr( sprintf( __( 'Copy &#8220;%s&#8221;', 'carbon-copy' ), $title ) )
-				. '">' .  esc_html__( 'Copy', 'carbon-copy' ) . '</a>';
-		$actions['edit_as_new_draft'] = '<a href="'. carbon_copy_get_clone_post_link( $post->ID ) .'" aria-label="'
-				. esc_attr( sprintf( __( 'Copy &#8220;%s&#8221; to new draft', 'carbon-copy' ), $title ) )
-				. '">' .  esc_html__( 'New Draft', 'carbon-copy' ) . '</a>';
+
+		$copy_quick = esc_attr( sprintf( __( 'Quick Copy &#8220;%s&#8221;', 'carbon-copy' ), $title ) );
+		$copy_draft = esc_attr( sprintf( __( 'Copy &#8220;%s&#8221;, Edit Draft', 'carbon-copy' ), $title ) );
+		
+		$actions['clone'] = '<a title="' . $copy_quick . '" href="'.carbon_copy_get_clone_post_link( $post->ID , 'display', false ).'" aria-label="' . $copy_quick . '">' .  esc_html__( 'Copy', 'carbon-copy' ) . '</a>';
+		$actions['edit_as_new_draft'] = '<a title="' . $copy_draft . '" href="'. carbon_copy_get_clone_post_link( $post->ID ) .'" aria-label="' . $copy_draft . '">' .  esc_html__( 'Copy Edit', 'carbon-copy' ) . '</a>';
 	}
 	return $actions;
 }
@@ -409,7 +416,7 @@ function carbon_copy_add_carbon_copy_button()
 		{
 ?>
 <div id="duplicate-action">
-	<a class="submitduplicate duplication" href="<?php echo esc_url( carbon_copy_get_clone_post_link( $id ) ); ?>"><?php esc_html_e( 'Copy to Draft', 'carbon-copy' ); ?></a>
+	<a class="submitduplicate duplication" href="<?php echo esc_url( carbon_copy_get_clone_post_link( $id ) ); ?>"><?php esc_html_e( 'Copy to Draft', 'default' ); ?></a>
 </div>
 <?php
 		}
@@ -739,8 +746,8 @@ function carbon_copy_create_duplicate( $post, $status = '', $parent_id = '' )
 	
 	if( $post->post_type != 'attachment' )
 	{
-		$prefix = sanitize_text_field(get_option( 'carbon_copy_title_prefix' ) );
-		$suffix = sanitize_text_field(get_option( 'carbon_copy_title_suffix' ) );
+		$prefix = sanitize_text_field( get_option( 'carbon_copy_title_prefix' ) );
+		$suffix = sanitize_text_field( get_option( 'carbon_copy_title_suffix' ) );
 		$title = ' ';
 		if( get_option( 'carbon_copy_copytitle' ) == 1 )
 		{
@@ -1064,4 +1071,159 @@ if( $carbon_copy_widgets_init == '1' )
 		}
 	}
 	new Carbon_Copy_Widgets();
+}
+
+// Carbon Copy Menus
+$carbon_copy_menus_init = get_option( 'carbon_copy_menus' );
+if( $carbon_copy_menus_init == '1' )
+{
+	
+class CarbonCopyMenu
+{
+    function __construct()
+	{
+        add_action( 'admin_menu', array( $this, 'options_page' ) );
+    }
+    // Admin menu Appearance > Menu Copier
+	function options_page()
+	{
+        add_theme_page(
+            'Carbon Copy Menu',
+            'Carbon Copy Menu',
+            'edit_theme_options',
+            'carbon-copy-menu',
+            array( $this, 'options_screen' )
+        );
+    }
+    // Menu coping function
+    function duplicate( $id = null, $name = null )
+	{
+        // Check and set variables
+        if ( empty( $id ) || empty( $name ) )
+		{
+	        return false;
+        }
+
+        $id           = intval( $id );
+        $name         = sanitize_text_field( $name );
+        $source       = wp_get_nav_menu_object( $id );
+        $source_items = wp_get_nav_menu_items( $id );
+        $new_id       = wp_create_nav_menu( $name );
+
+		// Ensure new menu created
+        if ( ! $new_id )
+		{
+            return false;
+        }
+		
+		// init
+        $i = 1;
+        $rel = array();
+		
+        foreach ( $source_items as $menu_item )
+		{
+            $args = array(
+                'menu-item-db-id'       => $menu_item->db_id,
+                'menu-item-object-id'   => $menu_item->object_id,
+                'menu-item-object'      => $menu_item->object,
+                'menu-item-position'    => $i,
+                'menu-item-type'        => $menu_item->type,
+                'menu-item-title'       => $menu_item->title,
+                'menu-item-url'         => $menu_item->url,
+                'menu-item-description' => $menu_item->description,
+                'menu-item-attr-title'  => $menu_item->attr_title,
+                'menu-item-target'      => $menu_item->target,
+                'menu-item-classes'     => implode( ' ', $menu_item->classes ),
+                'menu-item-xfn'         => $menu_item->xfn,
+                'menu-item-status'      => $menu_item->post_status
+            );
+
+            $parent_id = wp_update_nav_menu_item( $new_id, 0, $args );
+            $rel[$menu_item->db_id] = $parent_id;
+
+            // If parent menu, update with new ID
+            if( $menu_item->menu_item_parent )
+			{
+                $args['menu-item-parent-id'] = $rel[$menu_item->menu_item_parent];
+                $parent_id = wp_update_nav_menu_item( $new_id, $parent_id, $args );
+            }
+
+	        // Allow developers to run custom functions
+	        do_action( 'carbon_copy_menu_item', $menu_item, $args );
+
+            $i++;
+        }
+
+        return $new_id;
+    }
+    // Options screen
+    function options_screen()
+	{
+        $nav_menus = wp_get_nav_menus();
+		?>
+
+<div class="wrap">
+
+	<h2><?php esc_html_e( 'Carbon Copy Menu', 'default' ); ?></h2>
+	<?php if( ! empty( $_POST ) && wp_verify_nonce( $_POST['carbon_copy_menu_nonce'], 'carbon_copy_menu' ) ) : ?>
+		<?php
+			$source_menu   = intval( $_POST['source_menu'] );
+			$new_menu_name = sanitize_text_field( $_POST['new_menu_name'] );
+			// Future update will check to ensure new, unique menu name is used before new menu creation attempt.
+			// Carbon Copy the Menu
+			$duplicator    = new CarbonCopyMenu();
+			$new_menu_id   = $duplicator->duplicate( $source_menu, $new_menu_name );
+		?>
+		<div id="message" class="updated">
+			<p>
+			<?php if ( $new_menu_id ) : ?>
+				<?php esc_html_e( 'The selected menu has been successfully copied!', 'default' ) ?>. <a href="nav-menus.php?action=edit&amp;menu=<?php echo absint( $new_menu_id ); ?>"><?php esc_html_e( 'View', 'default' ) ?></a>
+			<?php else: ?>
+				<?php esc_html_e( 'There was a problem coping your menu. No action was taken.', 'default' ) ?>.
+			<?php endif; ?>
+			</p>
+		</div>
+	<?php endif; ?>
+
+	<?php if( empty( $nav_menus ) ) : ?>
+		<p><?php esc_html_e( "You haven't created any Menus yet.", 'default' ); ?></p>
+	<?php else: ?>
+		<form method="post" action="">
+			<?php wp_nonce_field( 'carbon_copy_menu', 'carbon_copy_menu_nonce' ); ?>
+			<table class="form-table">
+				<tr valign="top">
+					<th scope="row">
+						<label for="source"><?php esc_html_e( 'Existing Menu to be Copied', 'default' ); ?>:</label>
+					</th>
+					<td>
+						<select name="source_menu" id="source_menu" required>
+							<option value="">- SELECT A MENU -</option>
+							<?php foreach( (array) $nav_menus as $_nav_menu ) : ?>
+								<option value="<?php echo esc_attr($_nav_menu->term_id) ?>"><?php echo esc_html( $_nav_menu->name ); ?></option>
+							<?php endforeach; ?>
+						</select>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row">
+						<label for="new_menu_name"><?php esc_html_e( 'Enter the New Menu Name', 'default' ); ?>:</label>
+					</th>
+					<td>
+						<input type="text" name="new_menu_name" id="new_menu_name" value="" class="regular-text" required /><br />
+						<span class="description">( <em><strong><?php esc_html_e( "Must create a new and unique menu name.", 'default' );  ?></strong></em> )</span>
+					</td>
+				</tr>
+			</table>
+			<p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php esc_html_e( 'Carbon Copy Menu', 'default' ) ?>" /></p>
+		</form>
+	<?php endif; ?>
+
+</div>
+
+	<?php
+	}
+}
+
+new CarbonCopyMenu();
+
 }

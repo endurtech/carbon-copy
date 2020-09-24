@@ -2,14 +2,14 @@
 /* --------------------------------------------------
 Plugin Name: Carbon Copy
 Plugin URI: https://endurtech.com/carbon-copy-wordpress-plugin/
-Description: Copy pages, posts, widgets and more quickly and conveniently.
+Description: Copy pages, posts, menus, widgets and more quickly and conveniently.
 Author: Manny Rodrigues
 Author URI: https://endurtech.com/
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.0
 Tested up to: 5.5
-Version: 1.1.1
+Version: 1.2.2
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,7 +20,7 @@ if( ! defined( 'ABSPATH' ) )
   exit(); // No direct access
 }
 
-define( 'CARBON_COPY_CURRENT_VERSION', '1.1.1' );
+define( 'CARBON_COPY_CURRENT_VERSION', '1.2.2' );
 
 add_filter( "plugin_action_links_".plugin_basename(__FILE__), "carbon_copy_plugin_actions", 10, 4 );
 function carbon_copy_plugin_actions( $actions, $plugin_file, $plugin_data, $context )
@@ -67,6 +67,7 @@ function carbon_copy_deactivation_cleaner()
 		delete_option( 'carbon_copy_copymenuorder' );
 
 		delete_option( 'carbon_copy_widgets' );
+		delete_option( 'carbon_copy_menus' );
 
 		delete_option( 'carbon_copy_roles' );
 
