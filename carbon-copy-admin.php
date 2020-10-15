@@ -394,7 +394,7 @@ function carbon_copy_make_duplicate_link_row( $actions, $post )
 		$copy_draft = esc_attr( sprintf( __( 'Copy &#8220;%s&#8221;, Edit Draft', 'carbon-copy' ), $title ) );
 		
 		$actions['clone'] = '<a title="' . $copy_quick . '" href="'.carbon_copy_get_clone_post_link( $post->ID , 'display', false ).'" aria-label="' . $copy_quick . '">' .  esc_html__( 'Copy', 'carbon-copy' ) . '</a>';
-		$actions['edit_as_new_draft'] = '<a title="' . $copy_draft . '" href="'. carbon_copy_get_clone_post_link( $post->ID ) .'" aria-label="' . $copy_draft . '">' .  esc_html__( 'Copy Edit', 'carbon-copy' ) . '</a>';
+		$actions['edit_as_new_draft'] = '<a title="' . $copy_draft . '" href="'. carbon_copy_get_clone_post_link( $post->ID ) .'" aria-label="' . $copy_draft . '">' .  esc_html__( 'Edit Copy', 'carbon-copy' ) . '</a>';
 	}
 	return $actions;
 }
