@@ -4,7 +4,7 @@
 }
 @media screen and (max-width:782px){
 	#wpadminbar li#wp-admin-bar-new_draft{
-		display:block;
+	display:block;
 	}
 	#wpadminbar #wp-admin-bar-new_draft > .ab-item{
     	text-indent:100%;

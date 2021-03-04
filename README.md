@@ -4,8 +4,8 @@ Contributors: Manny Rodrigues
 Donations: https://endurtech.com/give-thanks/  
 Tags: duplicate, page, pages, post, posts, widget, widgets, menu, menus, custom post type, copy, clone, replicate
 Requires WP: 5.0  
-Tested to: 5.6  
-Stable tag: 1.2.3  
+Tested to: 5.7  
+Stable tag: 1.2.4  
 License: GPLv3 or later  
 
 ## Description
@@ -49,6 +49,8 @@ Use the Add New Plugin feature within your WordPress site and search for "Carbon
 
 ## Changelog
 
+* 1.2.4 (2021-03-02)
+  * Tested against WordPress 5.7
 * 1.2.3 (2020-12-28)
   * Tested against WordPress 5.6
 * 1.2.2 (2020-09-24)
