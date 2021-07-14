@@ -138,7 +138,8 @@ function carbon_copy_plugin_upgrade()
 	add_option( 'carbon_copy_copycomments', '0' );
 	add_option( 'carbon_copy_copymenuorder', '0' );
 
-	add_option( 'carbon_copy_widgets', '1' );
+	add_option( 'carbon_copy_widgets_classic', '0' );
+  add_option( 'carbon_copy_widgets', '0' );
 	add_option( 'carbon_copy_menus', '0' );
 	
 	// ! carbon copy roles
@@ -961,6 +962,16 @@ function carbon_copy_has_ancestors_marked( $post, $post_ids )
 	return( $ancestors_in_array !== 0 );
 }
 
+// Carbon Copy Restore Classic Widgets
+$carbon_copy_widgets_init = get_option( 'carbon_copy_widgets_classic' );
+if( $carbon_copy_widgets_init == '1' )
+{
+  // Disable block editor widget management in Gutenberg.
+  add_filter( 'gutenberg_use_widgets_block_editor', '__return_false' );
+  // Disable block editor widget management. Apperance > Widgets.
+  add_filter( 'use_widgets_block_editor', '__return_false' );
+}
+
 // Carbon Copy Widgets
 $carbon_copy_widgets_init = get_option( 'carbon_copy_widgets' );
 if( $carbon_copy_widgets_init == '1' )
@@ -1077,13 +1088,13 @@ class CarbonCopyMenu
     function __construct()
 	{
         add_action( 'admin_menu', array( $this, 'options_page' ) );
-    }
-    // Admin menu Appearance > Menu Copier
+  }
+  // Admin menu Appearance > Menus Carbon Copy
 	function options_page()
 	{
         add_theme_page(
-            'Carbon Copy Menu',
-            'Carbon Copy Menu',
+            'Menus Carbon Copy',
+            'Menus Carbon Copy',
             'edit_theme_options',
             'carbon-copy-menu',
             array( $this, 'options_screen' )
@@ -1158,7 +1169,7 @@ class CarbonCopyMenu
 
 <div class="wrap">
 
-	<h2><?php esc_html_e( 'Carbon Copy Menu', 'default' ); ?></h2>
+	<h2><?php esc_html_e( 'Menus Carbon Copy', 'default' ); ?></h2>
 	<?php if( ! empty( $_POST ) && wp_verify_nonce( $_POST['carbon_copy_menu_nonce'], 'carbon_copy_menu' ) ) : ?>
 		<?php
 			$source_menu   = intval( $_POST['source_menu'] );

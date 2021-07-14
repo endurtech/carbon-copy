@@ -4,19 +4,23 @@ Contributors: Manny Rodrigues
 Donations: https://endurtech.com/give-thanks/  
 Tags: duplicate, page, pages, post, posts, widget, widgets, menu, menus, custom post type, copy, clone, replicate
 Requires WP: 5.0  
-Tested to: 5.7  
-Stable tag: 1.2.4  
+Tested to: 5.8  
+Stable tag: 1.2.6  
 License: GPLv3 or later  
 
 ## Description
 
-> Are you ready to increase your productivity? This free WordPress plugin will allow you to quickly and conveniently copy your pages, posts, menus, widgets and even your custom post types. You can quickly copy, bulk copy and copy straight to new drafts.  
+> Are you ready to increase your productivity? The Carbon Copy WordPress plugin will allow you to quickly and conveniently copy your pages, posts, menus, widgets and even your custom post types. You can quickly copy, bulk copy and copy straight to new drafts.  
 
-Carbon Copy has many useful settings to customize its behavior, restrict its use to certain roles or post types and will increase your productivity. For more information check out the plugin documentation at [the plugin's site](https://endurtech.com/carbon-copy-wordpress-plugin/).  
+WordPress v5.8 introduces a new Block based widgets page which integrates the ability to duplicate widgets. Thus the widgets copy feature within Carbon Copy is no longer needed.  
+
+However, some may wish to revert their widgets page back to the traditional widgets. If so, Carbon Copy 1.2.6 now has an option permitting you to disable the new Block based widgets within WordPress v5.8 and restoring the traditional way in which you managed your widgets as well as copied them using the plugin.  
+
+Carbon Copy has many other useful settings to customize its behavior, restrict its use to certain roles or post types and will increase your productivity. For more information check out the plugin documentation on  [the plugin's site](https://endurtech.com/carbon-copy-wordpress-plugin/).  
 
 Carbon Copy does not display any annoying ads or pop-ups and does not collect any information outside your WordPress installation. Carbon Copy is 100% GDPR compliant.  
 
-If you find this free plugin useful, support my work and future improvements to this plugin by [sending me a tip using Brave](https://endurtech.com/send-a-tip-using-the-brave-browser/) or by [sending me a one-time donation](https://endurtech.com/give-thanks/).  
+Find this free plugin useful? Please support my work on this plugin by [sending me a tip using Brave](https://endurtech.com/send-a-tip-using-the-brave-browser/) or by [sending me a one-time donation](https://endurtech.com/give-thanks/).  
 
 ## Features
 
@@ -27,6 +31,7 @@ If you find this free plugin useful, support my work and future improvements to 
 * While viewing a post as a logged in user, you can click on 'Copy to new draft' from the admin bar.
 * Developers can use a **template tag**, for use in your theme to clone your posts/pages from the front-end.
 * Quickly and easily create a copy of any widget with a single click.
+* NEW Option to disable the block editor from managing widgets in the Gutenberg plugin and from managing widgets.
 * Copy and rename entire navigational menus using Appearance > Carbon Copy Menu.
 * Toggle option to clean out the plugins' database values upon deactivation.
 
@@ -49,26 +54,38 @@ Use the Add New Plugin feature within your WordPress site and search for "Carbon
 
 ## Changelog
 
+* 1.2.6 (2021-07-14)
+  * Tested against WordPress 5.8
+  * Renamed and titled the Menus Carbon Copier feature.
+  * Added ability to disable the new Block based widgets introduced in WordPress v5.8. This will revert your widgets page back to the traditional widgets in Appearance - Widgets and Customizer.
+
 * 1.2.4 (2021-03-02)
   * Tested against WordPress 5.7
+
 * 1.2.3 (2020-12-28)
   * Tested against WordPress 5.6
+
 * 1.2.2 (2020-09-24)
   * New shortcuts added to Widget and Menu Copy options from Settings menu.
   * Ability to set new menu names from Menu Copy page.
-* 1.2.0 (2020-10-01)
+
+* 1.2.0 (2020-09-23)
   * NEW Menu copy feature introduced. Available under Appearance > Carbon Copy Menu. Working to integrate with main Menu page.
   * Other code improvements
+
 * 1.1.2 (2020-09-21)
   * Link text update, New Draft to just Draft
   * Updated text within action list for 'post_row_actions'
+
 * 1.1.1 (2020-09-17)
   * Checks user permissions for bulk actions, function renamed
   * Updated check for comment type
   * Taxonomies blacklist check updated
+
 * 1.1.0 (2020-08-14)
   * Added toggle option to copy and duplicate widgets
   * Added toggle option to clean stored plugin database values upon deactivation
+
 * 1.0.0 (2020-08-07)
   * Initial version on WP repository
   * Tested against WordPress 5.5

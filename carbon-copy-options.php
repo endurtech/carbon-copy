@@ -31,6 +31,7 @@ function carbon_copy_register_settings()
 	register_setting( 'carbon_copy_group', 'carbon_copy_copycomments' );
 	register_setting( 'carbon_copy_group', 'carbon_copy_copymenuorder' );
 
+	register_setting( 'carbon_copy_group', 'carbon_copy_widgets_classic' );
 	register_setting( 'carbon_copy_group', 'carbon_copy_widgets' );
 	register_setting( 'carbon_copy_group', 'carbon_copy_menus' );
 
@@ -161,12 +162,18 @@ jQuery( function()
 
 	<div style="padding:10px 0px;"></div>
 	<h3>Others</h3>
+
 	<label>
-		<input type="checkbox" name="carbon_copy_widgets" value="1" <?php if( get_option( 'carbon_copy_widgets' ) == 1 ) echo 'checked="checked"'; ?> /><?php esc_html_e( "Apperance > Widgets", 'default' ); ?>
+		<input type="checkbox" name="carbon_copy_widgets_classic" value="1" <?php if( get_option( 'carbon_copy_widgets_classic' ) == 1 ) echo 'checked="checked"'; ?> /><strong><?php esc_html_e( "Classic Widgets:", 'default' ); ?></strong> <?php esc_html_e( "Disables Widget Block Editor Management", 'default' ); ?>
+	</label><?php if( get_option( 'carbon_copy_widgets_classic' ) == 1 ) echo ' | <a href="widgets.php" title="Opens Widgets page in New Window" target="_blank">Widgets Page</a>'; ?><br />
+
+	<label>
+		<input type="checkbox" name="carbon_copy_widgets" value="1" <?php if( get_option( 'carbon_copy_widgets' ) == 1 ) echo 'checked="checked"'; ?> /><strong><?php esc_html_e( "Widgets Carbon Copier:", 'default' ); ?></strong> <?php esc_html_e( "(only works with Classic Widgets) Located under Appearance > Widgets", 'default' ); ?>
 	</label><?php if( get_option( 'carbon_copy_widgets' ) == 1 ) echo ' | <a href="widgets.php" title="Opens Widgets page in New Window" target="_blank">Widgets Page</a>'; ?><br />
+  
 	<label>
-		<input type="checkbox" name="carbon_copy_menus" value="1" <?php if( get_option( 'carbon_copy_menus' ) == 1 ) echo 'checked="checked"'; ?> /><?php esc_html_e( "Appearance > Menus", 'default' ); ?>
-	</label><?php if( get_option( 'carbon_copy_menus' ) == 1 ) echo ' | <a href="themes.php?page=carbon-copy-menu" title="Opens Carbon Copy Menu page in New Window" target="_blank">Menu Copier</a>'; ?><br />
+		<input type="checkbox" name="carbon_copy_menus" value="1" <?php if( get_option( 'carbon_copy_menus' ) == 1 ) echo 'checked="checked"'; ?> /><strong><?php esc_html_e( "Menus Carbon Copy:", 'default' ); ?></strong> <?php esc_html_e( "Located under Appearance > Menus Carbon Copy", 'default' ); ?>
+	</label><?php if( get_option( 'carbon_copy_menus' ) == 1 ) echo ' | <a href="themes.php?page=carbon-copy-menu" title="Opens Menus Carbon Copy page in New Window" target="_blank">Menus Carbon Copy</a>'; ?><br />
 
 <div style="padding:10px 0px;"></div>
 <h2 id="permissions">Copy Permissions</h2>
