@@ -5,8 +5,8 @@ Tags: duplicate, page, pages, post, posts, widget, widgets, menu, menus, custom 
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.0
-Tested up to: 5.8
-Stable tag: 1.2.6
+Tested up to: 5.9
+Stable tag: 1.2.7
 
 Copy pages, posts, menus, widgets and more quickly and conveniently.
 
@@ -55,6 +55,9 @@ Use the Add New Plugin feature within your WordPress site and search for "Carbon
 6. Carbon Copy Settings > Options.
 
 == Changelog ==
+
+= 1.2.7 (2022-01-24) =
+* Tested against WordPress 5.9
 
 = 1.2.6 (2021-07-14) =
 * Tested against WordPress 5.8
