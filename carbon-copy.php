@@ -8,8 +8,8 @@ Author URI: https://endurtech.com/
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.0
-Tested up to: 5.9
-Version: 1.2.7
+Tested up to: 6.1
+Version: 1.2.9
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -66,7 +66,7 @@ function carbon_copy_deactivation_cleaner()
 		delete_option( 'carbon_copy_copycomments' );
 		delete_option( 'carbon_copy_copymenuorder' );
 
-    delete_option( 'carbon_copy_widgets_classic' );
+	    	delete_option( 'carbon_copy_widgets_classic' );
 		delete_option( 'carbon_copy_widgets' );
 		delete_option( 'carbon_copy_menus' );
 
