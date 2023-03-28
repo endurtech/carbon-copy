@@ -1,12 +1,12 @@
 === Carbon Copy ===
-Contributors: endurox
+Contributors: wpgearpro, endurox
 Donate link: https://endurtech.com/give-thanks/
 Tags: duplicate, page, pages, post, posts, widget, widgets, menu, menus, custom post type, copy, clone, replicate
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
-Requires at least: 5.0
-Tested up to: 6.1
-Stable tag: 1.2.9
+Requires at least: 5.4
+Tested up to: 6.2
+Stable tag: 1.3.0
 
 Copy pages, posts, menus, widgets and more quickly and conveniently.
 
@@ -55,6 +55,9 @@ Use the Add New Plugin feature within your WordPress site and search for "Carbon
 6. Carbon Copy Settings > Options.
 
 == Changelog ==
+
+= 1.3.0 (2023-03-28) =
+* Tested against WordPress 6.2
 
 = 1.2.9 (2022-10-26) =
 * Tested against WordPress 6.1

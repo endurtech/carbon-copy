@@ -7,9 +7,9 @@ Author: Manny Rodrigues
 Author URI: https://endurtech.com/
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
-Requires at least: 5.0
-Tested up to: 6.1
-Version: 1.2.9
+Requires at least: 5.4
+Tested up to: 6.2
+Version: 1.3.0
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,7 +20,7 @@ if( ! defined( 'ABSPATH' ) )
   exit(); // No direct access
 }
 
-define( 'CARBON_COPY_CURRENT_VERSION', '1.2.7' );
+define( 'CARBON_COPY_CURRENT_VERSION', '1.3.0' );
 
 add_filter( "plugin_action_links_".plugin_basename(__FILE__), "carbon_copy_plugin_actions", 10, 4 );
 function carbon_copy_plugin_actions( $actions, $plugin_file, $plugin_data, $context )
