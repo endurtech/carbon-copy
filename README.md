@@ -2,10 +2,10 @@
 
 Contributors: Manny Rodrigues  
 Donations: https://endurtech.com/give-thanks/  
-Tags: duplicate, page, pages, post, posts, widget, widgets, menu, menus, custom post type, copy, clone, replicate
+Tags: duplicate page, duplicate post, copy page, copy post, copy menu
 Requires WP: 5.4  
-Tested to: 6.4  
-Stable tag: 1.3.1  
+Tested to: 6.5  
+Stable tag: 1.3.4  
 License: GPLv3 or later  
 
 ## Description
@@ -54,9 +54,14 @@ Use the Add New Plugin feature within your WordPress site and search for "Carbon
 
 ## Changelog
 
-* 1.3.1 (2023-11-08) =
-  * Tested against WordPress 6.4
-  * Updated plugin author information.
+* 1.3.4 (2024-04-02)
+  * Added WordPress Repository blueprint feature for user previews.
+
+* 1.3.3 (2024-04-02)
+  * Limited Tags to 5 as per WP Repository Requirements.
+
+* 1.3.2 (2024-04-03)
+  * Tested against WordPress 6.5
 
 * 1.3.0 (2023-03-28)
   * Tested against WordPress 6.2
