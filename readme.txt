@@ -5,8 +5,8 @@ Tags: duplicate page, duplicate post, copy page, copy post, copy menu
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.4
-Tested up to: 6.8
-Stable tag: 1.3.5
+Tested up to: 6.10
+Stable tag: 1.3.6
 
 Copy pages, posts, menus quickly and conveniently.
 
@@ -55,6 +55,9 @@ Use the Add New Plugin feature within your WordPress site and search for "Carbon
 6. Carbon Copy Settings > Options.
 
 == Changelog ==
+
+= 1.3.6 (2026-01-05) =
+* Tested against WordPress 6.9
 
 = 1.3.5 (2024-12-31) =
 * Tested against WordPress 6.7.2
